@@ -1,2 +1,2 @@
 # LibraryApp
-LibraryApp only terminal, work in progress
+Library App using only terminal, work in progress
