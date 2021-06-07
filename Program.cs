@@ -21,7 +21,8 @@ namespace ConsoleApp1
                 "2)Take book\n" +
                 "3)Book List\n"+
                 "4)Return book\n" +
-                "5)Close\n\n");
+                "5)Remove book\n" +
+                "6)Close\n\n");
                 Console.Write("Choose your option from menu : ");
 
                 int option = int.Parse(Console.ReadLine());
@@ -42,7 +43,11 @@ namespace ConsoleApp1
                 {
                     ReturnBook();
                 }
-                else if(option == 5)
+                else if (option == 5)
+                {
+                    RemoveBook();
+                }
+                else if(option == 6)
                 {
                     Console.WriteLine("Thank you");
                     close = false;
@@ -59,12 +64,12 @@ namespace ConsoleApp1
             Book book = new Book();
             Console.Write("Book Name:");
             book.name = Console.ReadLine();
-           /*Console.Write("Book Language:");
+           Console.Write("Book Language:");
             book.language = Console.ReadLine();
            Console.Write("Book Author:");
             book.author = Console.ReadLine();
             Console.Write("Book Category:");
-            book.category = Console.ReadLine();*/
+            book.category = Console.ReadLine();
            /* Console.Write("Book publication date: M/dd/yyyy: ");
             string pattern = "M/dd/yyyy";
             book.publicationDate = DateTime.ParseExact(Console.ReadLine(), pattern, null);
@@ -156,10 +161,28 @@ namespace ConsoleApp1
             }
             string bookToRetrun = Console.ReadLine();
             int bookIndex = bookList.FindIndex(r => r.name == bookToRetrun);
-            Console.WriteLine("You borrowed this book at: {0}", personList[personIndex].borrowTime);
+            Console.WriteLine("You borrowed this book at: {0}", personList[personIndex].Date);
             bookList[bookIndex].borrowed = false;
             personList[personIndex].bookCount--;
             personList[personIndex].borrowedBooks.Remove(bookToRetrun);
+            Console.WriteLine("You have returned the book");
+        }
+        public static void RemoveBook()
+        {
+            Console.WriteLine("What book would you like to remove?: ");
+            foreach(Book books in bookList)
+            {
+                Console.WriteLine(books.name);
+            }
+            string bookToRemove = Console.ReadLine();
+            int bookIndex = bookList.FindIndex(r => r.name == bookToRemove);
+            if(bookList[bookIndex].borrowed == true)
+            {
+                Console.WriteLine("You can't remove this book because it is borrowed");
+                return;
+            }
+            bookList.Remove(bookList[bookIndex]);
+            Console.WriteLine("You removed the book");
         }
 
     }
