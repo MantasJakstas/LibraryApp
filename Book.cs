@@ -21,5 +21,6 @@ namespace ConsoleApp1
         public DateTime Date;
         public int borrowTime;
         public int bookCount = 0;
+        public List<string> borrowedBooks = new List<string>();
     }
 }

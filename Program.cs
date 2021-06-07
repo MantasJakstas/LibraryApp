@@ -20,7 +20,8 @@ namespace ConsoleApp1
                 "1)Add book\n" +
                 "2)Take book\n" +
                 "3)Book List\n"+
-                "4)Close\n\n");
+                "4)Return book\n" +
+                "5)Close\n\n");
                 Console.Write("Choose your option from menu : ");
 
                 int option = int.Parse(Console.ReadLine());
@@ -37,7 +38,11 @@ namespace ConsoleApp1
                 {
                     DisplayBooks();
                 }
-                else if(option == 4)
+                else if (option == 4)
+                {
+                    ReturnBook();
+                }
+                else if(option == 5)
                 {
                     Console.WriteLine("Thank you");
                     close = false;
@@ -54,12 +59,12 @@ namespace ConsoleApp1
             Book book = new Book();
             Console.Write("Book Name:");
             book.name = Console.ReadLine();
-           Console.Write("Book Language:");
+           /*Console.Write("Book Language:");
             book.language = Console.ReadLine();
            Console.Write("Book Author:");
             book.author = Console.ReadLine();
             Console.Write("Book Category:");
-            book.category = Console.ReadLine();
+            book.category = Console.ReadLine();*/
            /* Console.Write("Book publication date: M/dd/yyyy: ");
             string pattern = "M/dd/yyyy";
             book.publicationDate = DateTime.ParseExact(Console.ReadLine(), pattern, null);
@@ -81,7 +86,8 @@ namespace ConsoleApp1
                 if (bookList[i].borrowed == false)
                 {
                     Console.WriteLine("Book name: {0}", bookList[i].name);
-                } else
+                }
+                else if (i == bookList.Count - 1)
                 {
                     Console.WriteLine("There are no available books :( ");
                     return;
@@ -113,6 +119,7 @@ namespace ConsoleApp1
                 }
                     Console.WriteLine($"The book is yours {person.name}");
                     bookList[index].borrowed = true;
+                    person.borrowedBooks.Add(bookToBorrow);
                     person.bookCount++;
                     person.Date = DateTime.Now;
                 }
@@ -135,6 +142,25 @@ namespace ConsoleApp1
                         "Category: {3}", bookList[i].name, bookList[i].author, bookList[i].language, bookList[i].author);
                 }
             }
+
         }
+        public static void ReturnBook()
+        {
+            Console.WriteLine("What is your name? ");
+            string borrowName = Console.ReadLine();
+            int personIndex = personList.FindIndex(r => r.name == borrowName);
+            Console.WriteLine("What book would you like to return: ");
+            foreach (string book in personList[personIndex].borrowedBooks)
+            {
+                Console.WriteLine(book);
+            }
+            string bookToRetrun = Console.ReadLine();
+            int bookIndex = bookList.FindIndex(r => r.name == bookToRetrun);
+            Console.WriteLine("You borrowed this book at: {0}", personList[personIndex].borrowTime);
+            bookList[bookIndex].borrowed = false;
+            personList[personIndex].bookCount--;
+            personList[personIndex].borrowedBooks.Remove(bookToRetrun);
+        }
+
     }
 }
